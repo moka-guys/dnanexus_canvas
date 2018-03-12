@@ -1,0 +1,73 @@
+{
+  "name": "canvas",
+  "title": "Canvas",
+  "summary": "Call copy number variants (CNVs) from whole genome sequencing alignments",
+  "tags": [
+    "Structural Variation",
+    "VariantCalling"
+  ],
+  "dxapi": "1.0.0",
+  "inputSpec": [
+    {
+      "name": "input_bam",
+      "label": "Input BAM (*.bam)",
+      "help": "BAM file generated from aligning WGS reads to the GRCh37 reference with BWA.",
+      "class": "file",
+      "patterns": ["*.bam"],
+      "optional": false
+    },
+    {
+      "name": "input_bam_index",
+      "label": "Input BAM index (*.bai)",
+      "help": "BAM index generated fdrom aligning WGS reads to GRCh37 reference using BWA.",
+      "class": "file",
+      "patterns": ["*.bai"],
+      "optional": false
+    },
+    {
+      "name": "canvas_ref",
+      "label": "Canvas Reference Genome Data",
+      "help": "Tar-zipped file containing Canvas GRCh37 reference data files.",
+      "class": "file",
+      "optional": false,
+      "default": {
+        "$dnanexus_link": "file-FB83gQj0pB3bvVFZJYF9vJ67"
+      }
+    }
+  ],
+  "outputSpec": [
+    {
+      "name": "canvas",
+      "label": "Canvas output files",
+      "help": "Canvas output files",
+      "class": "array:file"
+    }
+  ],
+  "runSpec": {
+    "systemRequirementsByRegion": {
+      "aws:us-east-1": {
+        "main": {
+          "instanceType": "mem2_ssd1_x4"
+        }
+      }
+    },
+    "systemRequirements": {
+      "main": {
+        "instanceType": "mem2_ssd1_x4"
+      }
+    },
+    "file": "src/code.sh",
+    "release": "14.04",
+    "interpreter": "bash",
+    "distribution": "Ubuntu"
+  },
+  "access": {
+    "network": [
+      "*"
+    ]
+  },
+  "details": {
+    "illumina/canvas release": "v1.34.0.1201",
+    "github release": "v1.0"
+  }
+}
