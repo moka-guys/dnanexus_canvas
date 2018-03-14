@@ -19,13 +19,13 @@ sudo chmod 755 -R Canvas-1.34.0.1201+master_x64/
 # Extract reference genome data to working directory ($HOME)
 tar -xzvf $canvas_ref_path
 # Create reference genome directory structure expected by Canvas
-canvas_dir=reference/Homo_sapiens/NCBI/GRCh37/Sequence/WholeGenomeFasta
+canvas_dir=reference/Homo_sapiens/NCBI/hg19/Sequence/WholeGenomeFasta
 mkdir -p $canvas_dir
 # Move reference genome data to new directory ($canvas_dir)
-mv CanvasGRCh37/* $canvas_dir/
+mv Canvas_hg19/* $canvas_dir/
 
 # Create Canvas output directory
-outdir=out/canvas/canvas_out/$input_bam_index_prefix
+outdir=out/canvas/Results/canvas_out/$input_bam_index_prefix
 mkdir -p $outdir
 
 # Run Canvas Germline-WGS for CNV calling
@@ -39,6 +39,9 @@ dotnet Canvas-1.34.0.1201+master_x64/Canvas.dll Germline-WGS --bam=$input_bam_pa
 
 # Change prefix of output files to input BAM sample name
 rename "s/CNV/$input_bam_prefix/" $outdir/CNV*
+
+# Unzip Canvas output CNV using gunzip
+gunzip ${outdir}/${input_bam_prefix}*.gz
 
 # Upload results to DNA Nexus
 dx-upload-all-outputs
