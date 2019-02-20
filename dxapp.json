@@ -1,7 +1,7 @@
 {
-  "name": "canvas",
+  "name": "canvas_v1.1",
   "title": "Canvas",
-  "summary": "Call copy number variants (CNVs) from whole genome sequencing alignments",
+  "summary": "Call copy number variants (CNVs) from whole genome sequence alignments",
   "tags": [
     "Structural Variation",
     "VariantCalling"
@@ -19,7 +19,7 @@
     {
       "name": "input_bam_index",
       "label": "Input BAM index (*.bai)",
-      "help": "BAM index generated fdrom aligning WGS reads to hg19 reference using BWA.",
+      "help": "BAM index generated from aligning WGS reads to hg19 reference using BWA.",
       "class": "file",
       "patterns": ["*.bai"],
       "optional": false
@@ -44,18 +44,6 @@
     }
   ],
   "runSpec": {
-    "systemRequirementsByRegion": {
-      "aws:us-east-1": {
-        "main": {
-          "instanceType": "mem2_ssd1_x4"
-        }
-      }
-    },
-    "systemRequirements": {
-      "main": {
-        "instanceType": "mem2_ssd1_x4"
-      }
-    },
     "file": "src/code.sh",
     "release": "14.04",
     "interpreter": "bash",
@@ -68,6 +56,15 @@
   },
   "details": {
     "illumina/canvas release": "v1.34.0.1201",
-    "github release": "v1.0"
+    "github release": "v1.1"
+  },
+  "regionalOptions": {
+    "aws:us-east-1": {
+      "systemRequirements": {
+        "main": {
+          "instanceType": "mem1_ssd1_x32"
+        }
+      }
+    }
   }
 }
