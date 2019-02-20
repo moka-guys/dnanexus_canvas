@@ -37,8 +37,12 @@ dotnet Canvas-1.34.0.1201+master_x64/Canvas.dll Germline-WGS --bam=$input_bam_pa
     --filter-bed=$canvas_dir/filter13.bed \
     --output=$outdir \
 
-# Change prefix of output files to input BAM sample name
-rename "s/CNV/$input_bam_prefix/" $outdir/CNV*
+# Change prefix of output files to input BAM name.
+# Canvas default outputs are: CNV.CoverageAndVariantFrequency.txt and CNV.vcf.gz
+for outfile_path in $outdir/*; do
+    new_name=$input_bam_prefix.$(basename $outfile_path)
+    mv $outfile_path $outdir/$new_name
+done
 
 # Unzip Canvas output CNV using gunzip
 gunzip ${outdir}/${input_bam_prefix}*.gz
