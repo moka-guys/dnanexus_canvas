@@ -16,6 +16,8 @@ Call CNVs from a single sample WGS alignment. Returns a variant call format (VCF
 |`*.bam`|WGS sample aligned to the **hg19** reference genome|
 |`*.bai`|Index file for the input BAM|
 
+Optional inputs can be provided to ignore regions or mark regions of known common variation and ploidy. Details can be found on the [Canvas Wiki](https://github.com/Illumina/canvas/wiki).
+
 Canvas requires additional reference genome files, each of which are packaged in a compressed tar file. This is a default input to the app and contains:
 * The reference genome (`genome.fa`) and index (`genome.fa.fai`)
 * An XML file (`GenomeSize.xml`) containing Genome Size data specific to the reference genome file

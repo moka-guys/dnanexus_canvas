@@ -31,8 +31,32 @@
       "class": "file",
       "optional": false,
       "default": {
-        "$dnanexus_link": "file-FBZ0bbj0pB3fK6jv9FvVxgq1"
+        "$dnanexus_link": "file-FVj3XP00pB3yQ3ppBJzVp1qZ"
       }
+    },
+    {
+      "name": "common_cnvs_bed",
+      "label": "Common CNVs (*.bed)",
+      "help": "A BED file containing regions of known common CNVs.",
+      "class": "file",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "ploidy_vcf",
+      "label": "Ploidy VCF (*.vcf)",
+      "help": "A sample VCF file containing regions to be considered non-variant.",
+      "class": "file",
+      "default": "",
+      "optional": true
+    },
+    {
+      "name": "filter_bed",
+      "label": "Filter BED (*.bed)",
+      "help": "A BED file containing regions to skip.",
+      "class": "file",
+      "default": "",
+      "optional": true
     }
   ],
   "outputSpec": [
@@ -55,7 +79,7 @@
     ]
   },
   "details": {
-    "illumina/canvas release": "v1.34.0.1201",
+    "illumina/canvas release": "v1.39.0.1598",
     "github release": "v1.1"
   },
   "regionalOptions": {
