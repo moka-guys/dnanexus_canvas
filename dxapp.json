@@ -31,7 +31,7 @@
       "class": "file",
       "optional": false,
       "default": {
-        "$dnanexus_link": "file-FVj3XP00pB3yQ3ppBJzVp1qZ"
+        "$dnanexus_link": "file-FVjbVzQ0pB3q30vk8Fz6G240"
       }
     },
     {
@@ -39,7 +39,6 @@
       "label": "Common CNVs (*.bed)",
       "help": "A BED file containing regions of known common CNVs.",
       "class": "file",
-      "default": "",
       "optional": true
     },
     {
@@ -47,7 +46,6 @@
       "label": "Ploidy VCF (*.vcf)",
       "help": "A sample VCF file containing regions to be considered non-variant.",
       "class": "file",
-      "default": "",
       "optional": true
     },
     {
@@ -55,7 +53,6 @@
       "label": "Filter BED (*.bed)",
       "help": "A BED file containing regions to skip.",
       "class": "file",
-      "default": "",
       "optional": true
     }
   ],
