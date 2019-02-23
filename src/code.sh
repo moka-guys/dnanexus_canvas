@@ -6,17 +6,15 @@ set -e -x -o pipefail
 
 #### Functions ####
 build_path () {
-# Build string containing optional command line arguments for Canvas. 
-# Takes a Canvas flag and input file. Returns empty string if file does not exist.
-# $ build_path "--filter-bed" "bed_file.bed"
-# >> " --filter-bed bed_file"
+# Build a string containing optional command line flag for Canvas.
+# Returns:
+#   A canvas option string if the second argument is not an empty string.
+# Example:
+#   $ build_path "--filter-bed" "bed_file.bed"
+#   >> " --filter-bed bed_file.bed"
     fopt=$1
     fpath=$2
-    if [ -e $fpath ]; then
-        echo " $fopt $fpath"
-    else
-        echo ""
-    fi
+    [[ ! -z $fpath ]] && echo " $fopt $fpath" || echo ""
 }
 
 #### Main ####
@@ -36,23 +34,25 @@ tar -xzvf $canvas_ref_path
 genome_dir=reference/Homo_sapiens/UCSC/hg19/Sequence/WholeGenomeFasta
 
 # Move input bam index file to location expected by Canvas
-mv $input_bam_index_path /home/dnanexus/in/input_bam/${input_bam_index_prefix}.bam.bai
+mv $input_bam_index_path /home/dnanexus/in/input_bam/
 
-# Create Canvas directories.
-outdir=out/canvas/Results/canvas_out/$input_bam_index_prefix
-mkdir -p $outdir tempdir
+# Create Canvas output directory for data upload
+outdir=out/canvas/Results/canvas_out/
+# Create temporary directory for renaming data
+mkdir -p $outdir tempdir 
 
-# Set additional options
+# Set canvas flags based on app inputs using the `build_path` function
 extra_opts=""
 extra_opts+=$(build_path "--ploidy-vcf" "$ploidy_vcf_path")
 extra_opts+=$(build_path "--common-cnvs-bed" "$common_cnvs_bed_path")
-if [ -e $filter_bed_path ]; then
+# Use reference bundle filter file if no alternative is given as an app input
+if [[ ! -z $filter_bed_path ]]; then
     extra_opts+=$(build_path "--filter-bed" "$filter_bed_path")
 else
     extra_opts+=$(build_path "--filter-bed" "reference/filter13.bed")
 fi
 
-# Run Canvas Germline-WGS for CNV calling
+# Run Canvas SmallPedigree workflow for CNV calling
 dotnet Canvas-1.39.0.1598+master_x64/Canvas.dll SmallPedigree-WGS \
     --bam=$input_bam_path \
     --population-b-allele-vcf=reference/dbsnp.vcf \
@@ -61,15 +61,15 @@ dotnet Canvas-1.39.0.1598+master_x64/Canvas.dll SmallPedigree-WGS \
     --output=tempdir \
     $extra_opts # Note filter_13.bed packaged with app is used here.
 
-# Move desired outputs to upload directory: CNV.CoverageAndVariantFrequency.txt and CNV.vcf.gz
+# Move desired outputs to upload directory
 mv tempdir/*.txt tempdir/*vcf.gz $outdir
-# Change prefix of output files to input BAM name.
+# Change prepend BAM file name to output files
 for outfile_path in $outdir/*; do
     new_name=$input_bam_prefix.$(basename $outfile_path)
     mv $outfile_path $outdir/$new_name
 done
 
-# Unzip Canvas output CNV using gunzip
+# Unzip output VCF containing CNV calls
 gunzip ${outdir}/*.gz
 
 # Upload results to DNA Nexus
