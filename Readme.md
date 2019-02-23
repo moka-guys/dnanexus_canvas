@@ -18,7 +18,7 @@ Call CNVs from a single sample WGS alignment. Returns a variant call format (VCF
 
 Optional inputs can be provided to ignore regions or mark regions of known common variation and ploidy. Details can be found on the [Canvas Wiki](https://github.com/Illumina/canvas/wiki).
 
-Canvas requires additional reference genome files, each of which are packaged in a compressed tar file. This is a default input to the app and contains:
+Canvas requires a reference genome and associated index files. The files for reference hg19 are linked as a default app input in a compressed tar file. Specifically this contains:
 * The reference genome (`genome.fa`) and index (`genome.fa.fai`)
 * An XML file (`GenomeSize.xml`) containing Genome Size data specific to the reference genome file
 * The Canvas-ready reference fasta file (`kmer.fa`) and index (`kmer.fa.fai`)
@@ -27,6 +27,7 @@ Canvas requires additional reference genome files, each of which are packaged in
 
 ## What does this app output?
 
+The following outputs can be found in the `Results/canvas_out` directory:
 * A VCF with CNV calls for the input sample (`*.vcf.gz`).
 * A statistics file with coverage and variant frequency for each 100Kb window of the reference genome is also produced, along with various log files (`*.CoverageAndVariantFrequency.txt`).
 
