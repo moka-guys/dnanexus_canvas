@@ -1,7 +1,7 @@
 {
-  "name": "canvas",
+  "name": "canvas_v1.1",
   "title": "Canvas",
-  "summary": "Call copy number variants (CNVs) from whole genome sequencing alignments",
+  "summary": "Call copy number variants (CNVs) from whole genome sequence alignments",
   "tags": [
     "Structural Variation",
     "VariantCalling"
@@ -19,7 +19,7 @@
     {
       "name": "input_bam_index",
       "label": "Input BAM index (*.bai)",
-      "help": "BAM index generated fdrom aligning WGS reads to hg19 reference using BWA.",
+      "help": "BAM index generated from aligning WGS reads to hg19 reference using BWA.",
       "class": "file",
       "patterns": ["*.bai"],
       "optional": false
@@ -31,8 +31,29 @@
       "class": "file",
       "optional": false,
       "default": {
-        "$dnanexus_link": "file-FBZ0bbj0pB3fK6jv9FvVxgq1"
+        "$dnanexus_link": "file-FVjbVzQ0pB3q30vk8Fz6G240"
       }
+    },
+    {
+      "name": "common_cnvs_bed",
+      "label": "Common CNVs (*.bed)",
+      "help": "A BED file containing regions of known common CNVs.",
+      "class": "file",
+      "optional": true
+    },
+    {
+      "name": "ploidy_vcf",
+      "label": "Ploidy VCF (*.vcf)",
+      "help": "A sample VCF file containing regions to be considered non-variant.",
+      "class": "file",
+      "optional": true
+    },
+    {
+      "name": "filter_bed",
+      "label": "Filter BED (*.bed)",
+      "help": "A BED file containing regions to skip.",
+      "class": "file",
+      "optional": true
     }
   ],
   "outputSpec": [
@@ -44,18 +65,6 @@
     }
   ],
   "runSpec": {
-    "systemRequirementsByRegion": {
-      "aws:us-east-1": {
-        "main": {
-          "instanceType": "mem2_ssd1_x4"
-        }
-      }
-    },
-    "systemRequirements": {
-      "main": {
-        "instanceType": "mem2_ssd1_x4"
-      }
-    },
     "file": "src/code.sh",
     "release": "14.04",
     "interpreter": "bash",
@@ -67,7 +76,16 @@
     ]
   },
   "details": {
-    "illumina/canvas release": "v1.34.0.1201",
-    "github release": "v1.0"
+    "illumina/canvas release": "v1.39.0.1598",
+    "github release": "v1.1"
+  },
+  "regionalOptions": {
+    "aws:us-east-1": {
+      "systemRequirements": {
+        "main": {
+          "instanceType": "mem1_ssd1_x32"
+        }
+      }
+    }
   }
 }
